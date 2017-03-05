@@ -3,9 +3,9 @@
     logger
     ~~~~~~
 
-    This is the logger configuration module for SIGAS SGS.
+    This is the logger configuration module for Teacher's REST application.
 
-    :copyright: (c) 2016 by Cooperativa de Trabajo BITSON Ltda.
+    :copyright: (c) 2017 by LeCoVi.
     :author: Leandro E. Colombo Viña.
     :license: GPL v3.0, see LICENSE for more details.
 

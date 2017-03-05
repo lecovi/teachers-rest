@@ -3,11 +3,8 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 from logging.config import fileConfig
 
-import os
-import sys
-# Adding current working directory to system path for correct import
-sys.path.append(os.getcwd())
-from app.database import Base, configuration
+from app.database import configuration
+from app.main import TestModel
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -21,7 +18,7 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = Base.metadata
+target_metadata = TestModel.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -57,7 +54,6 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    print(os.getcwd())
     connectable = engine_from_config(
         config.get_section(config.config_ini_section),
         prefix='sqlalchemy.',

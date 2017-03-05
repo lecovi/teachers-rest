@@ -13,6 +13,7 @@ $ git checkout master   # Creating local master branch
 $ git checkout develop  # Going back to develop branch
 $ git flow init -d
 $ mkvirtualenv -p $(which pypy3) trest
+$ add2virtualenv .      # Adds  project directory to PYTHONPATH in virtualenv.
 $ pip install -r requirements/development.txt
 $ docker run --name trest-db -e POSTGRES_PASSWORD=lecovi.trest -e POSTGRES_USER=lecovi -e POSTGRES_DB=trest -p 5432:5432 -d postgres
 $ cp .env.dist .env     # Make sure to change your variables!

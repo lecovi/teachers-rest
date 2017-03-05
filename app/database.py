@@ -1,10 +1,11 @@
 """
-    teachers-rest.models
-    ~~~~~~~~~~~~~~~~~~~~~~~
+    teachers-rest.database
+    ~~~~~~~~~~~~~~~~~~~~~~
     
-    Description
+    Main DATABASE models. This modules set `AppModel` to use as a Template
+    for new models in application.
     
-    :copyright: (c) 2017 by Cooperativa de Trabajo BITSON Ltda..
+    :copyright: (c) 2017 by LeCoVi.
     :author: Leandro E. Colombo Viña <colomboleandro at bitson.com.ar>.
     :license: AGPL, see LICENSE for more details.
 """
@@ -18,13 +19,13 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.expression import func
-# BITSON imports
+# LeCoVi imports
 from app.logger import console_logger
 from config import config
 
 configuration = config[os.getenv('FALCON_CONFIG') or 'default']
 engine = create_engine(configuration.SQLALCHEMY_DATABASE_URI)
-Base = declarative_base()
+Base = declarative_base(bind=engine)
 Session = sessionmaker(bind=engine)
 session = Session()
 
