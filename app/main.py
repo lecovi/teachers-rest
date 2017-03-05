@@ -1,5 +1,6 @@
 import falcon
 import json
+from .models import TestModel
 
 
 class QuoteResource:
@@ -12,6 +13,8 @@ class QuoteResource:
         }
 
         resp.body = json.dumps(quote)
- 
+
+
 api = falcon.API()
 api.add_route('/quote', QuoteResource())
+api.add_route('/test', TestModel())
