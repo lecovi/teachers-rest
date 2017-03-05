@@ -6,7 +6,9 @@ gunicorn==19.7.0
 packaging==16.8
 Pygments==2.2.0
 pyparsing==2.1.10
+python-dotenv==0.6.3
 python-mimeparse==1.6.0
 readline==6.2.4.1
 requests==2.13.0
 six==1.10.0
+Sphinx==1.5.3
