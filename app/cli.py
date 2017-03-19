@@ -1,10 +1,10 @@
 """Usage:
-    trest.py db migrate COMMENT
-    trest.py db upgrade
-    trest.py db drop
-    trest.py db create [-d]
-    trest.py db rebuild [-d]
-    trest.py db history
+    manage.py db migrate COMMENT
+    manage.py db upgrade
+    manage.py db drop
+    manage.py db create [-d]
+    manage.py db rebuild [-d]
+    manage.py db history
 
 Database operations.
 
