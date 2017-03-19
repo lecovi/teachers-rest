@@ -11,6 +11,7 @@
 # Standard lib imports
 import json
 # Third-party imports
+from sqlalchemy import Column, Integer
 # BITSON imports
 from app.database import AppModel
 
@@ -35,3 +36,15 @@ class TestModel2(AppModel):
         }
 
         resp.body = json.dumps(test)
+
+
+class TestModel3(AppModel):
+    __tablename__ = 'tests3'
+
+    another_column = Column(Integer, nullable=False, default=0)
+
+    def on_get(self, req, resp):
+        test = {
+            'k': 'value',
+        }
+        resp.body = json.dump(test)
