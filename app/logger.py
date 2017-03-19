@@ -29,8 +29,10 @@ console_handler.setFormatter(logging.Formatter(fmt="%(message)s"))
 
 console_logger.addHandler(console_handler)
 
-log_format = "".join(["[%(asctime)s] %(name)20s - %(levelname)8s: ",
-                          "%(threadName)15s-%(funcName)15s() - %(message)s"])
+log_format = "".join(
+    ["[%(asctime)s] %(name)20s - %(levelname)8s: ",
+     "%(threadName)15s-%(funcName)15s() - %(message)s"]
+)
 formatter = logging.Formatter(fmt=log_format)
 # Format UTC Time
 formatter.converter = time.gmtime

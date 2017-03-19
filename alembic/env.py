@@ -4,7 +4,7 @@ from sqlalchemy import engine_from_config, pool
 from logging.config import fileConfig
 
 from app.database import configuration
-from app.main import TestModel
+from app.main import Student
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -18,7 +18,7 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = TestModel.metadata
+target_metadata = Student.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
