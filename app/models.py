@@ -110,3 +110,7 @@ class Course(AppModel):
         }
 
         resp.body = json.dumps(response)
+
+    def on_post(self, req, resp):
+        json_body = json.loads(req.stream.read().decode())
+        print(json_body)
