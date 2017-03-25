@@ -1,11 +1,11 @@
 #! /usr/bin/env python
 """
-    teachers-rest.trest
+    teachers-rest.manage.py
     ~~~~~~~~~~~~~~~~~~~~~~~
     
-    Description
+    Teacher's REST CLI module.
     
-    :copyright: (c) 2017 by Cooperativa de Trabajo BITSON Ltda..
+    :copyright: (c) 2017 by LeCoVi.
     :author: Leandro E. Colombo Viña <colomboleandro at bitson.com.ar>.
     :license: AGPL, see LICENSE for more details.
 """

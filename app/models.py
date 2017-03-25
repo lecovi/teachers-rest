@@ -42,6 +42,8 @@ class Student(AppModel):
                 'doc_type': result.doc_type.description,
                 'doc_number': result.doc_number,
                 'email': result.email,
+                'created_on': result.created_on.isoformat(),
+                'updated_on': result.updated_on.isoformat(),
             }
             students.append(student)
 
@@ -65,6 +67,8 @@ class DocumentType(AppModel):
             document_type = {
                 'id': result.id,
                 'description': result.description,
+                'created_on': result.created_on.isoformat(),
+                'updated_on': result.updated_on.isoformat(),
             }
             document_types.append(document_type)
 
@@ -95,6 +99,8 @@ class Course(AppModel):
                 'code': result.code,
                 'year': result.year,
                 'semester': result.semester,
+                'created_on': result.created_on.isoformat(),
+                'updated_on': result.updated_on.isoformat(),
             }
             courses.append(course)
 

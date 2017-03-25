@@ -11,8 +11,12 @@
 # Standard lib imports
 # Third-party imports
 import falcon
-
+# LeCoVi imports
+from .database import engine
+from .helpers import wait_db_connection
 from .models import Student, DocumentType, Course
+
+wait_db_connection(engine=engine)
 
 api = falcon.API()
 api.add_route('/students', Student())
