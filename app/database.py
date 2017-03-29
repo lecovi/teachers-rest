@@ -87,6 +87,13 @@ class AppModel(Base):
         if commit:
             session.commit()
 
+    def set_attr_from_dict(self, dictionary, commit=True):
+        session.add(self)
+        for key, value in dictionary.items():
+            self._set_attr_in_db(key=key, value=value, commit=False)
+        if commit:
+            session.commit()
+
     def set_erased(self, commit=True):
         self._set_attr_in_db(key='erased', value=True, commit=commit)
 

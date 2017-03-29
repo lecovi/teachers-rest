@@ -113,4 +113,5 @@ class Course(AppModel):
 
     def on_post(self, req, resp):
         json_body = json.loads(req.stream.read().decode())
+        self.set_attr_from_dict(dictionary=json_body)
         print(json_body)
