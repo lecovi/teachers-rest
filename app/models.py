@@ -78,12 +78,15 @@ class Student(AppModel):
         
         :param fields: a dictionary which contains Student data.
         """
-        if not fields.get('doc_number') or not fields.get('email'):
-            raise TRestError('missing doc_number or email field')
-
+        if not fields.get('doc_number'):
+            raise TRestError('missing doc_number field')
         student = cls.get_by(doc_number=fields.get('doc_number'))
+
         if not student:
+            if not fields.get('email'):
+                raise TRestError('missing email field')
             student = cls.get_by(doc_number=fields.get('email'))
+
             if not student:
                 student = cls(
                     first_name=fields.get('first_name'),
@@ -93,7 +96,33 @@ class Student(AppModel):
                     email=fields.get('email'),
                 )
                 session.commit()
+
         return student
+
+    def enroll(self, course_code):
+        course = Course.get_by(code=course_code)
+        if not course:
+            raise TRestError('Invalid Course Code')
+        self.courses.append(course)
+        session.commit()
+
+    def disenroll(self, course_code):
+        course = Course.get_by(code=course_code)
+        if not course:
+            raise TRestError('Invalid Course Code')
+        try:
+            self.courses.remove(course)
+        except ValueError:
+            pass
+        session.commit()
+
+    def multiple_enroll(self, course_code_list):
+        for course_code in course_code_list:
+            self.enroll(course_code=course_code)
+
+    def multiple_disenroll(self, course_code_list):
+        for course_code in course_code_list:
+            self.disenroll(course_code=course_code)
 
 
 class DocumentType(AppModel):

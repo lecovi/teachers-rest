@@ -12,35 +12,118 @@
 import json
 # Third-party imports
 # LeCoVi imports
-from app.models import Student, Course, DocumentType
-from app.database import session
+from app.models import Student
 
 
 class EnrollStudent:
     def on_post(self, req, resp):
-        """ Handles Students enrollment """
+        """ Handles Students enrollments """
         json_body = json.loads(req.stream.read().decode())
 
         student = Student.get_or_create(fields=json_body)
 
+        courses_to_enroll = list()
         if json_body.get('arq'):
-            course = Course.get_by(code='ARQ')
-            student.courses.append(course)
-
+            courses_to_enroll.append('ARQ')
         if json_body.get('dlo'):
-            course = Course.get_by(code='DLO')
-            student.courses.append(course)
-
+            courses_to_enroll.append('DLO')
         if json_body.get('asi'):
-            course = Course.get_by(code='ASI')
-            student.courses.append(course)
-
+            courses_to_enroll.append('ASI')
         if json_body.get('par'):
-            course = Course.get_by(code='PAR')
-            student.courses.append(course)
-
+            courses_to_enroll.append('PAR')
         if json_body.get('edd'):
-            course = Course.get_by(code='EDD')
-            student.courses.append(course)
+            courses_to_enroll.append('EDD')
 
-        session.commit()
+        student.multiple_enroll(course_code_list=courses_to_enroll)
+
+        response = {
+            'student': {
+                'name': '{} {}'.format(student.first_name, student.last_name),
+                'id': student.id,
+                'email': student.email,
+                'doc_number': student.doc_number,
+                'doc_type': student.doc_type.description,
+            },
+            'courses': courses_to_enroll,
+        }
+
+        resp.body = json.dumps(response)
+
+    def on_put(self, req, resp):
+        """ Handles Students enrollment modifications"""
+        json_body = json.loads(req.stream.read().decode())
+
+        student = Student.get_or_create(fields=json_body)
+
+        courses_to_enroll = list()
+        courses_to_disenroll = list()
+        if json_body.get('arq'):
+            courses_to_enroll.append('ARQ')
+        else:
+            courses_to_disenroll.append('ARQ')
+        if json_body.get('dlo'):
+            courses_to_enroll.append('DLO')
+        else:
+            courses_to_disenroll.append('DLO')
+        if json_body.get('asi'):
+            courses_to_enroll.append('ASI')
+        else:
+            courses_to_disenroll.append('ASI')
+        if json_body.get('par'):
+            courses_to_enroll.append('PAR')
+        else:
+            courses_to_disenroll.append('PAR')
+        if json_body.get('edd'):
+            courses_to_enroll.append('EDD')
+        else:
+            courses_to_disenroll.append('EDD')
+
+        student.multiple_enroll(course_code_list=courses_to_enroll)
+        student.multiple_disenroll(course_code_list=courses_to_disenroll)
+
+        response = {
+            'student': {
+                'name': '{} {}'.format(student.first_name, student.last_name),
+                'id': student.id,
+                'email': student.email,
+                'doc_number': student.doc_number,
+                'doc_type': student.doc_type.description,
+            },
+            'enrolled_courses': courses_to_enroll,
+            'disenrolled_courses': courses_to_disenroll,
+        }
+
+        resp.body = json.dumps(response)
+
+    def on_delete(self, req, resp):
+        """ Handles Students disenrollments """
+        json_body = json.loads(req.stream.read().decode())
+
+        student = Student.get_or_create(fields=json_body)
+
+        courses_to_disenroll = list()
+        if json_body.get('arq'):
+            courses_to_disenroll.append('ARQ')
+        if json_body.get('dlo'):
+            courses_to_disenroll.append('DLO')
+        if json_body.get('asi'):
+            courses_to_disenroll.append('ASI')
+        if json_body.get('par'):
+            courses_to_disenroll.append('PAR')
+        if json_body.get('edd'):
+            courses_to_disenroll.append('EDD')
+
+        student.multiple_disenroll(course_code_list=courses_to_disenroll)
+
+        response = {
+            'student': {
+                'name': '{} {}'.format(student.first_name, student.last_name),
+                'id': student.id,
+                'email': student.email,
+                'doc_number': student.doc_number,
+                'doc_type': student.doc_type.description,
+            },
+            'courses': courses_to_disenroll,
+        }
+
+        resp.body = json.dumps(response)
