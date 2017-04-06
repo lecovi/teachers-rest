@@ -17,6 +17,10 @@ from sqlalchemy.orm import relationship
 from app.database import AppModel, session
 
 
+class TRestError(Exception):
+    pass
+
+
 class Student(AppModel):
     __tablename__ = 'students'
 
@@ -62,6 +66,34 @@ class Student(AppModel):
         }
 
         resp.body = json.dumps(response)
+
+    @classmethod
+    def get_or_create(cls, fields):
+        """ Returns a Student object using `json_body` parameters.
+        
+        First we try to get a Student object using document number. If no 
+        Student is registered in DB with the document number we try with 
+        email address. If neither of both exists in DB, then we create a new 
+        Student object.
+        
+        :param fields: a dictionary which contains Student data.
+        """
+        if not fields.get('doc_number') or not fields.get('email'):
+            raise TRestError('missing doc_number or email field')
+
+        student = cls.get_by(doc_number=fields.get('doc_number'))
+        if not student:
+            student = cls.get_by(doc_number=fields.get('email'))
+            if not student:
+                student = cls(
+                    first_name=fields.get('first_name'),
+                    last_name=fields.get('last_name'),
+                    doc_type_id=fields.get('doc_type_id'),
+                    doc_number=fields.get('doc_number'),
+                    email=fields.get('email'),
+                )
+                session.commit()
+        return student
 
 
 class DocumentType(AppModel):
