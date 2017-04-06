@@ -54,15 +54,15 @@ def demo_data():
     courses = [
         Course(id=0, description='N/A', code='N/A', year=0, semester=0),
         Course(description='Arquitectura de computadoras',
-               code='ARQ', year=1, semester=1),
+               code='ARQ', year=1, semester=1, list_name='arquitectura'),
         Course(description='Diagramación Lógica',
-               code='DLO', year=1, semester=1),
+               code='DLO', year=1, semester=1, list_name='diagramacion'),
         Course(description='Estructura de Datos',
-               code='EDD', year=1, semester=2),
+               code='EDD', year=1, semester=2, list_name='estructura'),
         Course(description='Paradigmas de Programación',
-               code='PAR', year=1, semester=2),
+               code='PAR', year=1, semester=2, list_name='paradigmas'),
         Course(description='Análisis de Sistemas',
-               code='ASI', year=2, semester=1),
+               code='ASI', year=2, semester=1, list_name='analisis'),
     ]
     session.add_all(courses)
 

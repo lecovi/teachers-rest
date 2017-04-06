@@ -45,14 +45,19 @@ class EnrollStudent:
         courses_to_enroll = list()
         if json_body.get('arq'):
             courses_to_enroll.append('ARQ')
+            student.subscribe_mailman(course_code='ARQ')
         if json_body.get('dlo'):
             courses_to_enroll.append('DLO')
+            student.subscribe_mailman(course_code='DLO')
         if json_body.get('asi'):
             courses_to_enroll.append('ASI')
+            student.subscribe_mailman(course_code='ASI')
         if json_body.get('par'):
             courses_to_enroll.append('PAR')
+            student.subscribe_mailman(course_code='PAR')
         if json_body.get('edd'):
             courses_to_enroll.append('EDD')
+            student.subscribe_mailman(course_code='EDD')
 
         student.multiple_enroll(course_code_list=courses_to_enroll)
 

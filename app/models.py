@@ -11,6 +11,7 @@
 # Standard lib imports
 import json
 # Third-party imports
+import requests
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 # LeCoVi imports
@@ -124,6 +125,21 @@ class Student(AppModel):
         for course_code in course_code_list:
             self.disenroll(course_code=course_code)
 
+    def subscribe_mailman(self, course_code):
+        course = Course.get_by(code=course_code)
+        if not course:
+            raise TRestError('Invalid Course Code')
+        url = 'http://listas.bitson.com.ar/mailman/subscribe/{}'.format(
+            course.list_name)
+        r = requests.post(url, data={
+            'email': self.email,
+            'fullname': '{} {}'.format(self.first_name, self.last_name),
+            'pw': self.doc_number,
+            'pw-conf': self.doc_number,
+            'digest': 0
+        })
+        print(r.status_code)
+
 
 class DocumentType(AppModel):
     __tablename__ = 'document_types'
@@ -156,6 +172,7 @@ class Course(AppModel):
     year = Column(Integer, nullable=False, default=1)
     semester = Column(Integer, nullable=False, default=1)
     code = Column(String(3), nullable=False, index=True)
+    list_name = Column(String)
 
     students = relationship('Student',
                             secondary='enrollments',
