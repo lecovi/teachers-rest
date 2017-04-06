@@ -17,7 +17,7 @@ import os
 import sys
 # Third Party imports
 from rainbow_logging_handler import RainbowLoggingHandler
-# BITSON imports
+# LeCoVi imports
 from config import Config
 
 console_logger = logging.getLogger('trest')

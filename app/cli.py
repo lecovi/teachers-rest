@@ -21,7 +21,7 @@ import os
 from alembic import command
 from alembic.config import Config
 from docopt import docopt
-# BITSON imports
+# LeCoVi imports
 from app.database import session
 from app.models import Student, DocumentType, Course
 from config import BASEDIR

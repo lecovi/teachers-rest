@@ -13,7 +13,7 @@ import json
 # Third-party imports
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
-# BITSON imports
+# LeCoVi imports
 from app.database import AppModel, session
 
 
@@ -28,6 +28,15 @@ class Student(AppModel):
     email = Column(String(256), nullable=False, index=True)
 
     doc_type = relationship('DocumentType')
+    courses = relationship('Course', secondary='enrollments',
+                           primaryjoin='and_('
+                                       'Student.id==Enrollment.student_id)',
+                           secondaryjoin='and_('
+                                         'Enrollment.course_id==Course.id,'
+                                         'Course.id>0,'
+                                         'Course.erased==False)',
+                           back_populates='students',
+                           )
 
     def on_get(self, req, resp):
         results = session.query(Student).filter(Student.id > 0,
@@ -87,6 +96,17 @@ class Course(AppModel):
     semester = Column(Integer, nullable=False, default=1)
     code = Column(String(3), nullable=False, index=True)
 
+    students = relationship('Student',
+                            secondary='enrollments',
+                            primaryjoin='and_('
+                                        'Course.id==Enrollment.course_id)',
+                            secondaryjoin='and_('
+                                          'Enrollment.student_id==Student.id,'
+                                          'Student.id>0,'
+                                          'Student.erased==False)',
+                            back_populates='courses',
+                            )
+
     def on_get(self, req, resp):
         results = session.query(Course).filter(
             Course.id > 0, Course.erased == False).all()
@@ -115,3 +135,11 @@ class Course(AppModel):
         json_body = json.loads(req.stream.read().decode())
         self.set_attr_from_dict(dictionary=json_body)
         print(json_body)
+
+
+class Enrollment(AppModel):
+    __tablename__ = 'enrollments'
+
+    description = None
+    student_id = Column(ForeignKey('students.id'))
+    course_id = Column(ForeignKey('courses.id'))
