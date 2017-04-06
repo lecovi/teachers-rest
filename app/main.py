@@ -15,7 +15,7 @@ import falcon
 from .database import engine
 from .helpers import wait_db_connection
 from .models import Student, DocumentType, Course
-from .resources import EnrollStudent
+from .resources import EnrollStudent, CourseList
 
 wait_db_connection(engine=engine)
 
@@ -24,3 +24,4 @@ api.add_route('/students', Student())
 api.add_route('/document_types', DocumentType())
 api.add_route('/courses', Course())
 api.add_route('/enroll', EnrollStudent())
+api.add_route('/enroll/{course_code}', CourseList())

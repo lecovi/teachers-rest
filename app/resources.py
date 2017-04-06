@@ -11,8 +11,28 @@
 # Standard lib imports
 import json
 # Third-party imports
+from falcon.errors import HTTPNotFound
 # LeCoVi imports
-from app.models import Student
+from app.models import Student, Course
+
+
+class CourseList:
+    def on_get(self, req, resp, course_code):
+        """ Returns Students list enrolled in course. """
+        course = Course.get_by(code=course_code.upper())
+        if not course:
+            raise HTTPNotFound(title='Course not found',
+                               description='Please check course code.')
+
+        student_list = list()
+        for student in course.students:
+            student_list.append(student.export_data())
+
+        response = {
+            'students': student_list,
+        }
+
+        resp.body = json.dumps(response)
 
 
 class EnrollStudent:
