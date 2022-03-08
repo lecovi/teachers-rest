@@ -1,4 +1,4 @@
 -r common.txt
 docopt==0.6.2
-httpie==0.9.9
+httpie==3.1.0
 ipython==5.3.0
